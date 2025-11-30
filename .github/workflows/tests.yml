@@ -1,0 +1,62 @@
+name: Run tests and publish report
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run tests
+        run: ./gradlew clean test
+        continue-on-error: true
+
+      # 1. Descargar el reporte anterior en la carpeta 'old-pages'
+      - name: Load test report history
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: old-pages
+
+      # 2. Generar el reporte
+      # CORRECCIÓN: Le pasamos 'gh_pages: old-pages' para que la acción
+      # sepa de dónde sacar el historial automáticamente.
+      - name: Build test report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: build/allure-results
+          gh_pages: old-pages # <--- ESTO FALTABA o estaba mal configurado
+          allure_history: allure-history
+          keep_reports: 20
+
+      # 3. Publicar
+      - name: Publish test report
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+          commit_message: ${{ github.event.head_commit.message }}
