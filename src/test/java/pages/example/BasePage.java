@@ -1,19 +1,15 @@
 package pages.example;
 
-import org.openqa.selenium.By;
+import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.chrome.*;
+import org.openqa.selenium.support.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.Duration;
-import java.util.HashMap;
 
 public class BasePage {
 
@@ -28,7 +24,7 @@ public class BasePage {
     public static void initDriver() {
 
             options = new ChromeOptions();
-            options.setAcceptInsecureCerts(true);
+            options.setAcceptInsecureCerts(true);// omision paginas peligrosas
 
 
                 // ----------------------------------------
@@ -84,6 +80,7 @@ public class BasePage {
     // --------------------------
     // LOCATORS
     // --------------------------
+    //detecta si es css o xpath
     private static By getBy(String locator) {
         locator = locator.trim();
 
