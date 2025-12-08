@@ -44,7 +44,7 @@ public class BasePage {
                     options.addArguments("--disable-dev-shm-usage"); // Evita crash por memoria compartida
                     options.addArguments("--disable-gpu");
                 } else {
-                    // --- TU PC LOCAL (CON PANTALLA) ---
+                    // --- PC LOCAL (CON PANTALLA) ---
                     System.out.println("Entorno LOCAL detectado: Ejecutando navegador visual");
                     options.addArguments("--start-maximized");
                 }

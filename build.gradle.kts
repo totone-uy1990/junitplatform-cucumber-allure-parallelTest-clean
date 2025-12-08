@@ -1,5 +1,5 @@
 plugins {
-    java
+    id("java")
     id("io.qameta.allure") version "2.12.0" // Plugin maneja el agente automáticamente
 }
 
@@ -9,7 +9,7 @@ repositories {
 
 // Versiones consistentes
 val allureVersion = "2.29.0" // Actualizado a versión reciente
-val cucumberVersion = "7.20.1"
+val cucumberVersion = "7.32.0"
 val junitPlatformVersion = "1.11.3"
 val seleniumVersion = "4.27.0" // Versión REAL estable
 
